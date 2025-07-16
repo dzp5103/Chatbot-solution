@@ -1,226 +1,408 @@
-name: "Copilot Setup Steps"
+# GitHub Copilot Instructions for Chatbot Solution Repository
 
-# Automatically run the setup steps when they are changed to allow for easy validation, and
-# allow manual testing through the repository's "Actions" tab
-on:
-  workflow_dispatch:
-  push:
-    paths:
-      - .github/workflows/copilot-setup-steps.yml
-  pull_request:
-    paths:
-      - .github/workflows/copilot-setup-steps.yml
+This repository is a curated collection of chatbot solutions, deployment guides, and self-hosting options. It serves as a comprehensive resource for developers looking to implement chatbot technologies across various platforms and frameworks.
 
-jobs:
-  # The job MUST be called `copilot-setup-steps` or it will not be picked up by Copilot.
-  copilot-setup-steps:
-    runs-on: ubuntu-latest
+## Repository Purpose
 
-    # Environment variable to disable Copilot Coding Agentâ€™s firewall
-    env:
-      COPILOT_CODING_AGENT_FIREWALL_ALLOWLIST: "0.0.0.0/0"
+This repository focuses on:
+- **Ready-to-deploy chatbot solutions** across multiple frameworks
+- **Self-hosting deployment guides** for various infrastructure setups
+- **Chatbot framework comparisons** and implementation examples
+- **Automation tools** for chatbot testing and deployment
+- **Browser automation** for chatbot UI testing and validation
 
-    # Set the permissions to the lowest permissions possible needed for your steps.
-    # Copilot will be given its own token for its operations.
-    permissions:
-      # If you want to clone the repository as part of your setup steps, for example to install dependencies, you'll need the `contents: read` permission. If you don't clone the repository in your setup steps, you can remove this.
-      contents: read
+## Project Structure Guidelines
 
-    # You can define any steps you want, and they will run before the agent starts.
-    # If you do not check out your code, Copilot will do this for you.
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+When working with this repository, follow this structure:
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
+```
+chatbot-solutions/
+├── frameworks/                    # Framework-specific implementations
+│   ├── botpress/                 # Botpress chatbot solutions
+│   ├── rasa/                     # Rasa Open Source implementations
+│   ├── microsoft-bot/            # Microsoft Bot Framework examples
+│   ├── dialogflow/               # Google Dialogflow integrations
+│   ├── wit.ai/                   # Meta Wit.ai implementations
+│   ├── chatterbot/               # Python ChatterBot examples
+│   ├── botman/                   # PHP BotMan framework
+│   └── botkit/                   # Botkit framework solutions
+├── deployment/                   # Deployment configurations
+│   ├── docker/                   # Docker containerization
+│   ├── kubernetes/               # K8s deployment manifests
+│   ├── cloud-functions/          # Serverless deployments
+│   ├── self-hosted/              # Self-hosting guides
+│   └── local/                    # Local development setups
+├── examples/                     # Complete example implementations
+│   ├── basic/                    # Simple chatbot examples
+│   ├── advanced/                 # Complex conversational AI
+│   └── industry-specific/        # Domain-specific solutions
+├── testing/                      # Testing frameworks and tools
+│   ├── unit/                     # Unit testing examples
+│   ├── integration/              # Integration test suites
+│   └── conversation-flow/        # Conversation testing
+├── documentation/                # Comprehensive guides
+│   ├── setup/                    # Setup and installation guides
+│   ├── deployment/               # Deployment documentation
+│   └── troubleshooting/          # Common issues and solutions
+└── tools/                        # Automation and utility tools
+    ├── automation/               # CI/CD and automation scripts
+    ├── monitoring/               # Monitoring and analytics
+    └── browser-automation/       # Browser testing tools
+```
 
-      - name: Environment Validation
-        run: |
-          echo "ðŸ” Validating environment setup..."
-          echo "Node.js version: $(node --version)"
-          echo "npm version: $(npm --version)"
-          echo "Current working directory: $(pwd)"
-          echo "Available disk space: $(df -h . | tail -1 | awk '{print $4}')"
-          
-          # Check required commands
-          command -v node >/dev/null 2>&1 || { echo "âŒ Node.js is required but not installed."; exit 1; }
-          command -v npm >/dev/null 2>&1 || { echo "âŒ npm is required but not installed."; exit 1; }
-          
-          echo "âœ… Environment validation passed"
+## Development Guidelines
 
-      # --- new step to write out a local agent.config.json overriding the firewall allowlist ---
-      - name: Disable Copilot firewall via config file
-        run: |
-          mkdir -p ~/.config/copilot-coding-agent
-          cat << 'EOF' > ~/.config/copilot-coding-agent/agent.config.json
-          {
-            "firewall": { 
-              "allowlist": [
-                "0.0.0.0/0",
-                "accounts.google.com",
-                "clients2.google.com", 
-                "googlechromelabs.github.io",
-                "storage.googleapis.com",
-                "safebrowsingohttpgateway.googleapis.com",
-                "chrome-for-testing-public"
-              ]
-            },
-            "project_context": {
-              "type": "TypeScript PDF Generation Service",
-              "primary_language": "TypeScript",
-              "tech_stack": "Node.js,TypeScript,PDFKit,Joi,Godspeed",
-              "framework": "Godspeed"
-            },
-            "enhanced_features": {
-              "advanced_prompts": true,
-              "security_scanning": true,
-              "performance_analysis": true,
-              "dependency_auditing": true
-            },
-            "automation_preferences": {
-              "auto_fix_lint": true,
-              "auto_generate_tests": true,
-              "auto_update_docs": true,
-              "auto_security_patches": true
-            }
-          }
-          EOF
+### Environment Setup
 
-      - name: Verify agent configuration
-        run: |
-          echo "ðŸ”Ž agent.config.json contents:"
-          jq . ~/.config/copilot-coding-agent/agent.config.json
+The repository uses a comprehensive development environment with:
 
-      - name: Complete setup
-        run: echo "âœ… Copilot setup complete; agent is ready to run."
+- **Node.js 20+** for JavaScript/TypeScript chatbot frameworks
+- **Python 3.11+** for AI/ML chatbot components (Rasa, spaCy, etc.)
+- **Browser Automation** tools (Chrome, Puppeteer, Playwright)
+- **MCP Servers** for enhanced development capabilities
+- **Disabled Firewall** configuration for unrestricted development
 
-      - name: Install Browser Dependencies (Pre-Firewall)
-        run: |
-          echo "ðŸŒ Installing browser dependencies before firewall activation..."
-          
-          # Install Chrome/Chromium for PDF generation
-          sudo apt-get update
-          sudo apt-get install -y wget gnupg
-          
-          # Add Google Chrome repository
-          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google.list
-          
-          # Install Chrome
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-          
-          # Verify installation
-          google-chrome --version
-          echo "âœ… Chrome installed successfully"
+### Coding Standards
 
-      
-      - name: Run Browser Installation Script
-        run: |
-          echo "ðŸ”§ Running browser installation verification..."
-          
-          # Run the install script if it exists
-          if [ -f "install.mjs" ]; then
-            node install.mjs || echo "âš ï¸  install.mjs completed with warnings"
-          else
-            echo "â„¹ï¸  No install.mjs found, skipping"
-          fi
+#### JavaScript/TypeScript Projects
+```bash
+# Validation commands
+npm run test          # Run all tests
+npm run lint          # ESLint validation
+npm run prettier      # Code formatting
+npm run build         # Build projects
+npm run dev           # Development server
+```
 
-      - name: Setup Project Structure
-        run: |
-          echo "ðŸ—ï¸  Setting up project structure..."
-          
-          # Create required directories
-          mkdir -p templates generated_docs logs
-          
-          # Verify directories exist
-          for dir in templates generated_docs logs; do
-            if [ -d "$dir" ]; then
-              echo "âœ… Directory $dir exists"
-            else
-              echo "âŒ Failed to create directory $dir"
-              exit 1
-            fi
-          done
-          
-          echo "âœ… Project structure setup completed"
+#### Python Projects
+```bash
+# Validation commands
+python -m pytest                    # Run tests
+python -m flake8 .                 # Linting
+python -m black .                  # Code formatting
+python -m mypy .                   # Type checking
+```
 
-      - name: Build Verification
-        run: |
-          echo "ðŸ”¨ Verifying build capability..."
-          
-          # Check if build script exists
-          if npm run build --if-present; then
-            echo "âœ… Build completed successfully"
-          else
-            echo "âš ï¸  Build failed or not configured, checking TypeScript compilation..."
-            
-            # Check if TypeScript files exist
-            if find src -name "*.ts" | grep -q .; then
-              echo "TypeScript files found but build failed"
-              echo "This may indicate build configuration issues"
-              # Don't fail the setup for build issues, just warn
-              echo "âš ï¸  Build verification completed with warnings"
-            else
-              echo "âœ… No TypeScript files found, build verification skipped"
-            fi
-          fi
+#### Docker Deployments
+```bash
+# Container validation
+docker build -t chatbot-solution .
+docker run --rm chatbot-solution
+docker-compose up --build
+```
 
-      - name: Test Setup Validation
-        run: |
-          echo "ðŸ§ª Running tests to validate setup..."
-          
-          # Run tests to validate the setup
-          if npm test; then
-            echo "âœ… All tests passed - setup is working correctly"
-          else
-            echo "âŒ Tests failed - there may be setup issues"
-            echo "Running individual test files for more details..."
-            
-            # Run tests individually to identify specific issues
-            test_files=("test_validation.js" "test_pdf_generation.js")
-            
-            for test_file in "${test_files[@]}"; do
-              if [ -f "$test_file" ]; then
-                echo "Running $test_file..."
-                if node "$test_file"; then
-                  echo "âœ… $test_file passed"
-                else
-                  echo "âŒ $test_file failed"
-                fi
-              fi
-            done
-            
-            # Don't fail setup for test issues, just warn
-            echo "âš ï¸  Test validation completed with issues"
-          fi
+### Framework-Specific Guidelines
 
-      - name: Lint Check
-        run: |
-          echo "ðŸ” Running linting checks..."
-          
-          # Run linter if available
-          if npm run lint --if-present; then
-            echo "âœ… Linting passed"
-          else
-            echo "âš ï¸  Linting failed or not configured"
-            echo "This may indicate code quality issues but won't block setup"
-          fi
+#### Botpress
+- Use TypeScript for custom actions and hooks
+- Store conversation flows in `flows/` directory
+- Include environment-specific configurations
+- Document API integrations and webhooks
 
-      - name: Setup Verification Summary
-        run: |
-          echo "ðŸ“‹ Setup Verification Summary"
-          echo "============================"
-          echo "âœ… Environment validated"
-          echo "âœ… Dependencies installed and verified"
-          echo "âœ… Project structure created"
-          echo "âœ… Build verification completed"
-          echo "âœ… Test validation executed"
-          echo "âœ… Code quality checks performed"
-          echo ""
-          echo "ðŸŽ‰ Copilot setup completed successfully!"
-          echo "The project is ready for development and AI assistance."
+#### Rasa
+- Structure training data in YAML format
+- Use domain.yml for responses and actions
+- Include custom actions in `actions/` directory
+- Provide training data examples and validation
+
+#### Microsoft Bot Framework
+- Use Bot Framework SDK patterns
+- Include adaptive cards examples
+- Document Azure deployment steps
+- Provide multi-channel configuration
+
+#### Dialogflow
+- Structure intents and entities clearly
+- Include fulfillment webhook examples
+- Document Google Cloud integration
+- Provide training phrase examples
+
+### Testing Requirements
+
+#### Conversation Flow Testing
+```javascript
+// Example conversation test structure
+describe('Chatbot Conversation Flow', () => {
+  test('should handle greeting intent', async () => {
+    const response = await chatbot.processMessage('Hello');
+    expect(response.intent).toBe('greeting');
+    expect(response.confidence).toBeGreaterThan(0.8);
+  });
+});
+```
+
+#### Browser Automation Testing
+```javascript
+// Example browser automation test
+const { setupBrowser } = require('./testing/browser-setup');
+
+describe('Chatbot UI Testing', () => {
+  let browser, page;
+  
+  beforeAll(async () => {
+    browser = await setupBrowser();
+    page = await browser.newPage();
+  });
+  
+  test('should display chatbot interface', async () => {
+    await page.goto('http://localhost:3000');
+    await expect(page.locator('.chat-interface')).toBeVisible();
+  });
+});
+```
+
+### MCP Server Configuration
+
+The repository uses multiple MCP servers for enhanced development:
+
+#### Available MCP Servers
+- `@modelcontextprotocol/server-everything` - General purpose server
+- `@modelcontextprotocol/server-brave-search` - Web search capabilities
+- `@modelcontextprotocol/server-filesystem` - File system operations
+- `@modelcontextprotocol/server-git` - Git operations
+
+#### Configuration Example
+```json
+{
+  "mcp_server_config": {
+    "enabled": true,
+    "servers": [
+      {
+        "name": "chatbot-mcp",
+        "command": "npx",
+        "args": ["@modelcontextprotocol/server-everything"],
+        "env": {
+          "CHATBOT_WORKSPACE": "./chatbot-workspace"
+        }
+      }
+    ]
+  }
+}
+```
+
+### Deployment Guidelines
+
+#### Docker Deployment
+```dockerfile
+# Example Dockerfile structure
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+EXPOSE 3000
+CMD ["npm", "start"]
+```
+
+#### Kubernetes Deployment
+```yaml
+# Example K8s deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatbot-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: chatbot
+  template:
+    metadata:
+      labels:
+        app: chatbot
+    spec:
+      containers:
+      - name: chatbot
+        image: chatbot-solution:latest
+        ports:
+        - containerPort: 3000
+```
+
+#### Self-Hosted Setup
+- Include systemd service files
+- Provide nginx configuration examples
+- Document SSL/TLS setup
+- Include monitoring configuration
+
+### Documentation Standards
+
+#### README Requirements
+Each chatbot solution must include:
+- **Quick Start Guide** - 5-minute setup instructions
+- **Prerequisites** - Required dependencies and versions
+- **Installation Steps** - Detailed setup process
+- **Configuration** - Environment variables and settings
+- **Deployment Options** - Available deployment methods
+- **Testing Instructions** - How to validate the implementation
+- **Troubleshooting** - Common issues and solutions
+
+#### Code Documentation
+- Use JSDoc for JavaScript/TypeScript functions
+- Include docstrings for Python functions
+- Document API endpoints and responses
+- Provide configuration option explanations
+
+### Security Guidelines
+
+#### Environment Variables
+```bash
+# Example .env structure
+CHATBOT_API_KEY=your_api_key_here
+DATABASE_URL=postgresql://user:pass@localhost/chatbot
+WEBHOOK_SECRET=your_webhook_secret
+ENCRYPTION_KEY=your_32_character_encryption_key
+```
+
+#### Security Checklist
+- [ ] API keys stored in environment variables
+- [ ] Input validation on all user inputs
+- [ ] Rate limiting on API endpoints
+- [ ] HTTPS enabled for production deployments
+- [ ] Regular dependency updates
+- [ ] Security headers configured
+
+### Browser Automation Setup
+
+The repository includes comprehensive browser automation capabilities:
+
+#### Chrome Configuration
+```javascript
+const chromeOptions = {
+  headless: true,
+  args: [
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--disable-dev-shm-usage',
+    '--disable-gpu',
+    '--no-first-run'
+  ]
+};
+```
+
+#### Puppeteer Integration
+```javascript
+const puppeteer = require('puppeteer');
+
+async function testChatbotUI() {
+  const browser = await puppeteer.launch(chromeOptions);
+  const page = await browser.newPage();
+  // Chatbot UI testing logic
+  await browser.close();
+}
+```
+
+### Contributing Guidelines
+
+#### Adding New Chatbot Solutions
+1. Create framework-specific directory
+2. Include complete implementation example
+3. Add deployment configurations
+4. Provide comprehensive documentation
+5. Include test cases and validation
+6. Add to main repository index
+
+#### Pull Request Requirements
+- [ ] Follows repository structure guidelines
+- [ ] Includes comprehensive documentation
+- [ ] Has working deployment example
+- [ ] Passes all automated tests
+- [ ] Includes browser automation tests (if applicable)
+- [ ] Updates main README with new solution
+
+### Automation Preferences
+
+The Copilot agent is configured with the following automation preferences:
+
+```json
+{
+  "automation_preferences": {
+    "auto_fix_lint": true,
+    "auto_generate_tests": true,
+    "auto_update_docs": true,
+    "auto_security_patches": true,
+    "auto_chatbot_deployment": true,
+    "auto_conversation_testing": true
+  }
+}
+```
+
+### Firewall Configuration
+
+The development environment has firewall restrictions disabled to allow:
+- Unrestricted package installation
+- Browser automation downloads
+- API access for chatbot frameworks
+- Cloud service integrations
+- Real-time testing and validation
+
+### Supported Technologies
+
+#### Programming Languages
+- **JavaScript/TypeScript** - Web-based chatbot frameworks
+- **Python** - AI/ML chatbot implementations
+- **Go** - High-performance chatbot services
+- **Rust** - Systems-level chatbot components
+- **PHP** - Traditional web-based chatbots
+
+#### Frameworks and Libraries
+- **Frontend**: React, Vue.js, Angular, Svelte
+- **Backend**: Node.js, Express, FastAPI, Flask, Gin
+- **AI/ML**: TensorFlow, PyTorch, spaCy, NLTK, Transformers
+- **Testing**: Jest, Pytest, Playwright, Puppeteer
+- **Deployment**: Docker, Kubernetes, Terraform
+
+#### Cloud Platforms
+- **AWS**: Lambda, ECS, EKS, Lex
+- **Google Cloud**: Cloud Functions, GKE, Dialogflow
+- **Azure**: Functions, AKS, Bot Service
+- **Heroku**: Container deployment
+- **DigitalOcean**: Droplets and App Platform
+
+## Creating Pull Requests
+
+When creating pull requests for this repository:
+
+### PR Description Template
+```markdown
+_This pull request was created as a result of the following prompt in Copilot Chat._
+
+<details>
+<summary>Original prompt - submitted by @username</summary>
+
+> [Original prompt text here]
+
+</details>
+
+## Changes Made
+- [ ] Added new chatbot framework support
+- [ ] Updated deployment configurations
+- [ ] Enhanced documentation
+- [ ] Added test cases
+- [ ] Fixed browser automation issues
+
+## Chatbot Solution Details
+- **Framework**: [Framework name]
+- **Deployment Type**: [Docker/K8s/Self-hosted/Local]
+- **Testing**: [Test coverage and validation]
+- **Documentation**: [Setup and usage guides]
+
+## Validation Checklist
+- [ ] All tests pass
+- [ ] Documentation is complete
+- [ ] Deployment example works
+- [ ] Browser automation tests included
+- [ ] Security guidelines followed
+```
+
+### Testing Before PR
+```bash
+# Comprehensive testing workflow
+npm run test                          # Unit tests
+npm run lint                          # Code quality
+npm run build                         # Build validation
+npm run test:integration              # Integration tests
+npm run test:browser                  # Browser automation tests
+docker-compose up --build             # Deployment test
+```
+
+This repository serves as a comprehensive resource for chatbot development, deployment, and automation. Follow these guidelines to maintain consistency and quality across all chatbot solutions and documentation.
