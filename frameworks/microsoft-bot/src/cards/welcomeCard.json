@@ -1,0 +1,141 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.4",
+    "body": [
+        {
+            "type": "Container",
+            "style": "emphasis",
+            "items": [
+                {
+                    "type": "ColumnSet",
+                    "columns": [
+                        {
+                            "type": "Column",
+                            "width": "auto",
+                            "items": [
+                                {
+                                    "type": "Image",
+                                    "url": "https://raw.githubusercontent.com/microsoft/botframework-sdk/main/icon.png",
+                                    "size": "Medium",
+                                    "style": "Person"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Column",
+                            "width": "stretch",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "text": "🤖 Microsoft Bot Assistant",
+                                    "weight": "Bolder",
+                                    "size": "Large",
+                                    "color": "Accent"
+                                },
+                                {
+                                    "type": "TextBlock",
+                                    "text": "Powered by Bot Framework v4",
+                                    "isSubtle": true,
+                                    "spacing": "None"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "spacing": "Medium",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "Welcome! I'm your intelligent assistant powered by Microsoft Bot Framework. I can help you with:",
+                    "wrap": true,
+                    "spacing": "Medium"
+                },
+                {
+                    "type": "FactSet",
+                    "facts": [
+                        {
+                            "title": "📅 Appointments",
+                            "value": "Schedule and manage your bookings"
+                        },
+                        {
+                            "title": "🌤️ Weather",
+                            "value": "Get current weather information"
+                        },
+                        {
+                            "title": "❓ Q&A",
+                            "value": "Ask questions from my knowledge base"
+                        },
+                        {
+                            "title": "💬 Chat",
+                            "value": "Natural conversation on various topics"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "style": "good",
+            "spacing": "Medium",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "🚀 **Quick Start Options**",
+                    "weight": "Bolder",
+                    "size": "Medium"
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "Choose what you'd like to do:",
+                    "wrap": true,
+                    "spacing": "Small"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "📅 Book Appointment",
+            "data": {
+                "action": "booking",
+                "text": "I'd like to book an appointment"
+            },
+            "style": "positive"
+        },
+        {
+            "type": "Action.Submit",
+            "title": "🌤️ Check Weather",
+            "data": {
+                "action": "weather",
+                "text": "What's the weather like?"
+            }
+        },
+        {
+            "type": "Action.Submit",
+            "title": "❓ Ask Question",
+            "data": {
+                "action": "question",
+                "text": "I have a question"
+            }
+        },
+        {
+            "type": "Action.Submit",
+            "title": "ℹ️ Help",
+            "data": {
+                "action": "help",
+                "text": "Help"
+            },
+            "style": "secondary"
+        }
+    ],
+    "backgroundImage": {
+        "url": "data:image/svg+xml,%3csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3cpattern id='a' patternUnits='userSpaceOnUse' width='20' height='20' patternTransform='scale(1) rotate(0)'%3e%3crect x='0' y='0' width='100%25' height='100%25' fill='%23f8f9fa'/%3e%3cpath d='M10 0v20M0 10h20' stroke='%23e9ecef' stroke-width='0.5' fill='none'/%3e%3c/pattern%3e%3c/defs%3e%3crect width='100%25' height='100%25' fill='url(%23a)'/%3e%3c/svg%3e",
+        "fillMode": "RepeatHorizontally"
+    }
+}

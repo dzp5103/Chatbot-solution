@@ -1,0 +1,64 @@
+{
+  "name": "microsoft-bot-framework-chatbot",
+  "version": "1.0.0",
+  "description": "Microsoft Bot Framework implementation with multi-channel support and Azure integration",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "jest",
+    "test:integration": "jest --config=jest.integration.config.js",
+    "test:watch": "jest --watch",
+    "lint": "eslint src/ --fix",
+    "format": "prettier --write src/",
+    "deploy:azure": "az webapp deployment source config-zip --resource-group $RESOURCE_GROUP --name $BOT_NAME --src bot.zip",
+    "package": "npm run lint && npm run test && zip -r bot.zip . -x node_modules/\\* .git/\\* .env *.log",
+    "build:docker": "docker build -t microsoft-bot .",
+    "start:docker": "docker run -p 3978:3978 microsoft-bot"
+  },
+  "keywords": [
+    "microsoft-bot-framework",
+    "chatbot",
+    "azure",
+    "conversational-ai",
+    "adaptive-cards",
+    "luis",
+    "qna-maker"
+  ],
+  "author": "Chatbot Solutions Repository",
+  "license": "MIT",
+  "dependencies": {
+    "botbuilder": "^4.20.0",
+    "botbuilder-dialogs": "^4.20.0",
+    "botbuilder-ai": "^4.20.0",
+    "botbuilder-applicationinsights": "^4.20.0",
+    "botbuilder-azure": "^4.20.0",
+    "restify": "^11.1.0",
+    "dotenv": "^16.3.1",
+    "adaptivecards": "^3.0.4",
+    "axios": "^1.6.0",
+    "moment": "^2.29.4",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
+    "eslint": "^8.53.0",
+    "prettier": "^3.1.0",
+    "supertest": "^6.3.3",
+    "@types/jest": "^29.5.8",
+    "botbuilder-testing": "^4.20.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dzp5103/Chatbot-solution.git",
+    "directory": "frameworks/microsoft-bot"
+  },
+  "bugs": {
+    "url": "https://github.com/dzp5103/Chatbot-solution/issues"
+  },
+  "homepage": "https://github.com/dzp5103/Chatbot-solution/tree/main/frameworks/microsoft-bot"
+}
