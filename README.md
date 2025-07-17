@@ -81,6 +81,12 @@ npm run setup:mcp
 
 ### 2. Run Analysis
 
+#### Live Trending Analysis (Newly Updated Multi-Model Projects)
+```bash
+# Analyzes recently updated projects with multi-model AI capabilities
+npm run analyze:trending
+```
+
 #### Demo Analysis (Sample Data)
 ```bash
 npx ts-node src/tools/demo-analyzer.ts
@@ -128,15 +134,35 @@ npm start
 - **4-6**: Some paid components required
 - **1-3**: Requires expensive paid services
 
+### Analysis Types
+
+#### 🔥 Trending Analysis (NEW)
+Focuses specifically on newly updated projects with multi-model capabilities:
+
+- **Time Filter**: Projects updated within the last 6 months
+- **Multi-Model Detection**: Identifies projects supporting multiple AI providers
+- **Active Development**: Prioritizes projects with recent commits and contributions
+- **Modern Frameworks**: Focuses on LangChain, LlamaIndex, and other modern AI frameworks
+
+**Key Benefits:**
+- Discovers emerging chatbot technologies
+- Avoids outdated or abandoned projects
+- Highlights cutting-edge multi-model implementations
+- Identifies trending AI integration patterns
+
+#### Traditional Analysis
+Comprehensive analysis of established chatbot frameworks:
+
 ### Analysis Includes
 
 - ⭐ GitHub stars and forks
-- 📅 Last update timestamps
+- 📅 Last update timestamps and recent activity
 - 🏠 Self-hosting capabilities
-- 🤖 Custom AI model support
+- 🤖 Multi-model AI provider support
 - 💰 Required paid services
 - 🌐 Browser automation testing (when applicable)
 - 📱 Mobile responsiveness checks
+- 🔥 Trending score based on recent activity
 
 ## 🌐 Browser Automation
 
