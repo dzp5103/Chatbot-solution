@@ -1,0 +1,134 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.pytest_cache/
+htmlcov/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Database
+*.sqlite3
+*.db
+db.sqlite3
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Docker
+.docker/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Build outputs
+dist/
+build/
+*.tgz
+*.tar.gz
+
+# Models and training data (large files)
+models/
+*.model
+*.bin
+*.h5
+*.pkl
+*.pickle
+
+# Test outputs
+coverage/
+.nyc_output/
+test-results/
+screenshots/
+videos/
+reports/
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Kubernetes
+*.kubeconfig
+
+# Certificates and keys
+*.pem
+*.key
+*.crt
+*.csr
+certificates/
+certs/
+
+# Backup files
+*.bak
+*.backup
+*.tmp
+
+# Application specific
+chatbot.sqlite3
+conversations.json
+training_data/
+cache/
+temp/
+tmp/
+
+# Rasa specific
+models/
+.rasa/
+
+# Botpress specific
+data/
+.botpress/
+
+# ChatterBot specific
+database.sqlite3
+corpus/
+
+# Monitoring
+prometheus_data/
+grafana_data/

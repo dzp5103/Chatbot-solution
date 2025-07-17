@@ -1,0 +1,5 @@
+rasa==3.6.20
+rasa-sdk==3.6.1
+spacy==3.7.2
+requests==2.31.0
+python-dateutil==2.8.2

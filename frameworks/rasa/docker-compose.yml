@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  rasa-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+      - ./config.yml:/app/config.yml
+      - ./domain.yml:/app/domain.yml
+      - ./endpoints.yml:/app/endpoints.yml
+      - ./credentials.yml:/app/credentials.yml
+    command: >
+      bash -c "rasa train --force &&
+               rasa run --enable-api --cors \"*\" --debug"
+    depends_on:
+      - rasa-actions
+      - redis
+    environment:
+      - RASA_DUCKLING_HTTP_URL=http://duckling:8000
+    networks:
+      - rasa-network
+
+  rasa-actions:
+    build:
+      context: ./actions
+      dockerfile: Dockerfile
+    ports:
+      - "5055:5055"
+    volumes:
+      - ./actions:/app/actions
+    command: >
+      bash -c "pip install -r requirements.txt &&
+               rasa run actions --debug"
+    networks:
+      - rasa-network
+
+  duckling:
+    image: rasa/duckling:0.2.0.0
+    ports:
+      - "8000:8000"
+    networks:
+      - rasa-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - rasa-network
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - rasa-server
+    networks:
+      - rasa-network
+
+volumes:
+  redis_data:
+
+networks:
+  rasa-network:
+    driver: bridge

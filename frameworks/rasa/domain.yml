@@ -1,0 +1,101 @@
+version: '3.1'
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - ask_weather
+  - ask_time
+  - book_appointment
+  - ask_faq
+  - request_help
+  - chitchat_human
+  - nlu_fallback
+
+entities:
+  - location
+  - time
+  - person
+
+slots:
+  location:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: location
+
+  appointment_time:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: time
+
+  appointment_confirmed:
+    type: bool
+    initial_value: false
+    influence_conversation: true
+    mappings:
+    - type: custom
+
+responses:
+  utter_greet:
+  - text: "Hey! How are you?"
+  - text: "Hello! Nice to meet you."
+  - text: "Hi there! How can I help you today?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+  - text: "I hope this makes you feel better!"
+    image: "https://i.imgur.com/Wl0cy1J.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+  - text: "Do you feel better now?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+  - text: "That's wonderful!"
+  - text: "Awesome! Glad to hear that."
+
+  utter_goodbye:
+  - text: "Bye"
+  - text: "Goodbye! Have a great day!"
+  - text: "See you later!"
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa."
+  - text: "Yes, I'm a chatbot built with Rasa Open Source."
+
+  utter_help:
+  - text: "I can help you with:\n- Weather information\n- Current time\n- Booking appointments\n- Answering frequently asked questions\n- General conversation\n\nWhat would you like to know?"
+
+  utter_acknowledge_deny:
+  - text: "No problem! Is there anything else I can help you with?"
+  - text: "That's okay. What else can I assist you with?"
+
+  utter_default:
+  - text: "I'm sorry, I didn't understand. Can you rephrase that?"
+  - text: "I'm not sure I follow. Could you try asking differently?"
+  - text: "I didn't catch that. Can you say it another way?"
+
+  utter_appointment_confirmed:
+  - text: "Great! Your appointment has been booked. You'll receive a confirmation email shortly."
+  - text: "Perfect! I've scheduled your appointment. Check your email for details."
+
+actions:
+  - action_weather_lookup
+  - action_tell_time
+  - action_book_appointment
+  - action_faq_response
+  - action_chitchat
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

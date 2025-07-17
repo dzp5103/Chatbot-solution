@@ -1,0 +1,32 @@
+{
+  "name": "chatbot-browser-automation",
+  "version": "1.0.0",
+  "description": "Browser automation testing suite for chatbot interfaces",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:rasa": "playwright test tests/rasa/",
+    "test:botpress": "playwright test tests/botpress/",
+    "test:chatterbot": "playwright test tests/chatterbot/",
+    "test:mobile": "playwright test --project=mobile",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "install:browsers": "playwright install",
+    "install:deps": "playwright install-deps"
+  },
+  "keywords": ["chatbot", "testing", "playwright", "automation", "browser"],
+  "author": "Chatbot Solutions Team",
+  "license": "MIT",
+  "dependencies": {
+    "@playwright/test": "^1.40.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.52.0",
+    "prettier": "^3.0.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
