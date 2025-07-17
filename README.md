@@ -1,408 +1,347 @@
-# GitHub Copilot Instructions for Chatbot Solution Repository
+# 🤖 Chatbot Solution Analyzer
 
-This repository is a curated collection of chatbot solutions, deployment guides, and self-hosting options. It serves as a comprehensive resource for developers looking to implement chatbot technologies across various platforms and frameworks.
+A comprehensive chatbot solution analysis tool with MCP (Model Context Protocol) server integration and Playwright browser automation.
 
-## Repository Purpose
+## 🚀 Features
 
-This repository focuses on:
-- **Ready-to-deploy chatbot solutions** across multiple frameworks
-- **Self-hosting deployment guides** for various infrastructure setups
-- **Chatbot framework comparisons** and implementation examples
-- **Automation tools** for chatbot testing and deployment
-- **Browser automation** for chatbot UI testing and validation
+- **📡 MCP Server Integration**: Implements multiple MCP servers for enhanced development capabilities
+- **🌐 Browser Automation**: Playwright integration for chatbot interface testing
+- **📊 GitHub Analysis**: Automated discovery and analysis of trending chatbot projects
+- **🎯 Smart Rating System**: Evaluates projects on deployment ease, features, and cost
+- **🏠 Self-Hosting Focus**: Prioritizes solutions with easy self-deployment options
+- **🤖 Custom AI Support**: Identifies projects with custom AI model integration capabilities
 
-## Project Structure Guidelines
+## 📡 MCP Servers Implemented
 
-When working with this repository, follow this structure:
+This project integrates the following Model Context Protocol servers:
+
+```
+├── @modelcontextprotocol/server-filesystem - File system operations
+├── @modelcontextprotocol/server-memory - Knowledge graph for enhanced analysis  
+├── @modelcontextprotocol/inspector - Real-time debugging and monitoring
+└── puppeteer-mcp-server - Browser automation capabilities
+```
+
+## 🛠️ Installation
+
+### Prerequisites
+
+- **Node.js 20+** 
+- **Python 3.11+** (for some MCP servers)
+- **Git**
+
+### Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/dzp5103/Chatbot-solution.git
+cd Chatbot-solution
+
+# Install dependencies
+npm install
+
+# Install Playwright browsers
+npx playwright install
+
+# Build the project
+npm run build
+
+# Create workspace directories
+mkdir -p workspace/{screenshots,reports,memory}
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your configuration
+```
+
+### Configuration
+
+Create a `.env` file with the following settings:
+
+```bash
+# MCP Server Configuration
+MCP_WORKSPACE=./workspace
+MCP_PORT=3001
+
+# GitHub API Configuration (optional, for live analysis)
+GITHUB_TOKEN=your_github_token_here
+
+# Application Configuration
+PORT=3000
+NODE_ENV=development
+```
+
+## 🚀 Usage
+
+### 1. Start the MCP Servers
+
+```bash
+npm run setup:mcp
+```
+
+### 2. Run Analysis
+
+#### Live Trending Analysis (Newly Updated Multi-Model Projects)
+```bash
+# Analyzes recently updated projects with multi-model AI capabilities
+npm run analyze:trending
+```
+
+#### Demo Analysis (Sample Data)
+```bash
+npx ts-node src/tools/demo-analyzer.ts
+```
+
+#### Full Analysis (Requires GitHub Token)
+```bash
+npm run analyze:chatbots
+```
+
+#### Start the Web Server
+```bash
+npm run dev
+# Or for production
+npm start
+```
+
+### 3. API Endpoints
+
+- `GET /` - API information
+- `GET /api/status` - System status
+- `POST /api/analyze` - Start chatbot analysis
+- `GET /api/mcp/status` - MCP server status
+- `GET /api/mcp/list` - List available MCP servers
+
+## 📊 Analysis Features
+
+### Rating System (1-10 Scale)
+
+#### 🚀 Deployment Ease
+- **10**: One-click deployment (Docker, Heroku button)
+- **7-9**: Simple deployment (Docker Compose, npm install)
+- **4-6**: Moderate setup (requires configuration)
+- **1-3**: Complex setup (extensive configuration required)
+
+#### 🎯 Features
+- **10**: Enterprise-grade with AI integration, analytics, multi-channel
+- **7-9**: Advanced features, good customization
+- **4-6**: Standard chatbot features
+- **1-3**: Basic chatbot functionality
+
+#### 💰 Cost (10 = free/cheap, 1 = expensive)
+- **10**: Completely free and open source
+- **7-9**: Free with optional paid services
+- **4-6**: Some paid components required
+- **1-3**: Requires expensive paid services
+
+### Analysis Types
+
+#### 🔥 Trending Analysis (NEW)
+Focuses specifically on newly updated projects with multi-model capabilities:
+
+- **Time Filter**: Projects updated within the last 6 months
+- **Multi-Model Detection**: Identifies projects supporting multiple AI providers
+- **Active Development**: Prioritizes projects with recent commits and contributions
+- **Modern Frameworks**: Focuses on LangChain, LlamaIndex, and other modern AI frameworks
+
+**Key Benefits:**
+- Discovers emerging chatbot technologies
+- Avoids outdated or abandoned projects
+- Highlights cutting-edge multi-model implementations
+- Identifies trending AI integration patterns
+
+#### Traditional Analysis
+Comprehensive analysis of established chatbot frameworks:
+
+### Analysis Includes
+
+- ⭐ GitHub stars and forks
+- 📅 Last update timestamps and recent activity
+- 🏠 Self-hosting capabilities
+- 🤖 Multi-model AI provider support
+- 💰 Required paid services
+- 🌐 Browser automation testing (when applicable)
+- 📱 Mobile responsiveness checks
+- 🔥 Trending score based on recent activity
+
+## 🌐 Browser Automation
+
+The system uses Playwright to test chatbot interfaces:
+
+```typescript
+// Test chatbot interface
+const result = await browserService.testChatbotInterface(url);
+// Returns: { hasChatInterface, interactionTest, responsiveness }
+```
+
+### Browser Tests Include
+
+- **Interface Detection**: Automatically finds chat widgets and interfaces
+- **Interaction Testing**: Tests input fields and message sending
+- **Responsiveness**: Checks mobile-friendly design
+- **Performance**: Measures load times and resource usage
+- **Accessibility**: Basic accessibility compliance checks
+
+## 📁 Project Structure
 
 ```
 chatbot-solutions/
-├── frameworks/                    # Framework-specific implementations
-│   ├── botpress/                 # Botpress chatbot solutions
-│   ├── rasa/                     # Rasa Open Source implementations
-│   ├── microsoft-bot/            # Microsoft Bot Framework examples
-│   ├── dialogflow/               # Google Dialogflow integrations
-│   ├── wit.ai/                   # Meta Wit.ai implementations
-│   ├── chatterbot/               # Python ChatterBot examples
-│   ├── botman/                   # PHP BotMan framework
-│   └── botkit/                   # Botkit framework solutions
-├── deployment/                   # Deployment configurations
-│   ├── docker/                   # Docker containerization
-│   ├── kubernetes/               # K8s deployment manifests
-│   ├── cloud-functions/          # Serverless deployments
-│   ├── self-hosted/              # Self-hosting guides
-│   └── local/                    # Local development setups
-├── examples/                     # Complete example implementations
-│   ├── basic/                    # Simple chatbot examples
-│   ├── advanced/                 # Complex conversational AI
-│   └── industry-specific/        # Domain-specific solutions
-├── testing/                      # Testing frameworks and tools
-│   ├── unit/                     # Unit testing examples
-│   ├── integration/              # Integration test suites
-│   └── conversation-flow/        # Conversation testing
-├── documentation/                # Comprehensive guides
-│   ├── setup/                    # Setup and installation guides
-│   ├── deployment/               # Deployment documentation
-│   └── troubleshooting/          # Common issues and solutions
-└── tools/                        # Automation and utility tools
-    ├── automation/               # CI/CD and automation scripts
-    ├── monitoring/               # Monitoring and analytics
-    └── browser-automation/       # Browser testing tools
+├── src/
+│   ├── config/           # Configuration files
+│   ├── services/         # Core services (MCP, GitHub, Browser)
+│   ├── tools/            # Analysis and setup tools
+│   ├── types/            # TypeScript type definitions
+│   └── tests/            # Test files
+├── workspace/            # Generated analysis data
+│   ├── screenshots/      # Browser automation screenshots
+│   ├── reports/          # Analysis reports (JSON & Markdown)
+│   └── memory/           # MCP server knowledge graph
+├── tools/                # External automation tools
+└── dist/                 # Compiled TypeScript output
 ```
 
-## Development Guidelines
+## 🧪 Testing
 
-### Environment Setup
-
-The repository uses a comprehensive development environment with:
-
-- **Node.js 20+** for JavaScript/TypeScript chatbot frameworks
-- **Python 3.11+** for AI/ML chatbot components (Rasa, spaCy, etc.)
-- **Browser Automation** tools (Chrome, Puppeteer, Playwright)
-- **MCP Servers** for enhanced development capabilities
-- **Disabled Firewall** configuration for unrestricted development
-
-### Coding Standards
-
-#### JavaScript/TypeScript Projects
 ```bash
-# Validation commands
-npm run test          # Run all tests
-npm run lint          # ESLint validation
-npm run prettier      # Code formatting
-npm run build         # Build projects
-npm run dev           # Development server
+# Run unit tests
+npm test
+
+# Run browser automation tests
+npm run test:browser
+
+# Run linting
+npm run lint
+
+# Format code
+npm run prettier
 ```
 
-#### Python Projects
+## 📊 Sample Analysis Results
+
+Based on our analysis, here are the top recommendations:
+
+### 🚀 Easiest to Deploy
+1. **Botpress** - Docker, npm/Node.js, Kubernetes support
+2. **ChatterBot** - Simple pip/Python installation
+3. **Botkit** - npm/Node.js, Docker, Heroku deployment
+
+### 🎯 Most Features
+1. **Rasa** - Full ML framework with NLU/dialogue management
+2. **Open-Assistant** - Advanced AI capabilities with task understanding
+3. **Botpress** - Enterprise features with visual flow builder
+
+### 💰 Best Value
+1. **Botpress** - Great features with easy deployment
+2. **Rasa** - Powerful ML capabilities, open source
+3. **ChatterBot** - Completely free with good basic features
+
+## 🔧 Development
+
+### Adding New MCP Servers
+
+1. Install the MCP server package:
 ```bash
-# Validation commands
-python -m pytest                    # Run tests
-python -m flake8 .                 # Linting
-python -m black .                  # Code formatting
-python -m mypy .                   # Type checking
+npm install @modelcontextprotocol/server-newserver
 ```
 
-#### Docker Deployments
-```bash
-# Container validation
-docker build -t chatbot-solution .
-docker run --rm chatbot-solution
-docker-compose up --build
-```
-
-### Framework-Specific Guidelines
-
-#### Botpress
-- Use TypeScript for custom actions and hooks
-- Store conversation flows in `flows/` directory
-- Include environment-specific configurations
-- Document API integrations and webhooks
-
-#### Rasa
-- Structure training data in YAML format
-- Use domain.yml for responses and actions
-- Include custom actions in `actions/` directory
-- Provide training data examples and validation
-
-#### Microsoft Bot Framework
-- Use Bot Framework SDK patterns
-- Include adaptive cards examples
-- Document Azure deployment steps
-- Provide multi-channel configuration
-
-#### Dialogflow
-- Structure intents and entities clearly
-- Include fulfillment webhook examples
-- Document Google Cloud integration
-- Provide training phrase examples
-
-### Testing Requirements
-
-#### Conversation Flow Testing
-```javascript
-// Example conversation test structure
-describe('Chatbot Conversation Flow', () => {
-  test('should handle greeting intent', async () => {
-    const response = await chatbot.processMessage('Hello');
-    expect(response.intent).toBe('greeting');
-    expect(response.confidence).toBeGreaterThan(0.8);
-  });
-});
-```
-
-#### Browser Automation Testing
-```javascript
-// Example browser automation test
-const { setupBrowser } = require('./testing/browser-setup');
-
-describe('Chatbot UI Testing', () => {
-  let browser, page;
-  
-  beforeAll(async () => {
-    browser = await setupBrowser();
-    page = await browser.newPage();
-  });
-  
-  test('should display chatbot interface', async () => {
-    await page.goto('http://localhost:3000');
-    await expect(page.locator('.chat-interface')).toBeVisible();
-  });
-});
-```
-
-### MCP Server Configuration
-
-The repository uses multiple MCP servers for enhanced development:
-
-#### Available MCP Servers
-- `@modelcontextprotocol/server-everything` - General purpose server
-- `@modelcontextprotocol/server-brave-search` - Web search capabilities
-- `@modelcontextprotocol/server-filesystem` - File system operations
-- `@modelcontextprotocol/server-git` - Git operations
-
-#### Configuration Example
-```json
+2. Add to configuration in `src/config/index.ts`:
+```typescript
 {
-  "mcp_server_config": {
-    "enabled": true,
-    "servers": [
-      {
-        "name": "chatbot-mcp",
-        "command": "npx",
-        "args": ["@modelcontextprotocol/server-everything"],
-        "env": {
-          "CHATBOT_WORKSPACE": "./chatbot-workspace"
-        }
-      }
-    ]
-  }
+  name: 'newserver',
+  command: 'npx',
+  args: ['@modelcontextprotocol/server-newserver'],
+  env: { /* environment variables */ },
+  enabled: true
 }
 ```
 
-### Deployment Guidelines
+### Adding New Analysis Metrics
 
-#### Docker Deployment
-```dockerfile
-# Example Dockerfile structure
-FROM node:20-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-EXPOSE 3000
-CMD ["npm", "start"]
+1. Update the `ChatbotProject` interface in `src/types/index.ts`
+2. Modify the analysis logic in `src/services/github-analyzer.ts`
+3. Update the rating calculation in `calculateRatings()`
+
+### Browser Automation
+
+Add new browser tests in `src/services/browser-automation.ts`:
+
+```typescript
+async testNewFeature(url: string): Promise<TestResult> {
+  const page = await this.createPage();
+  // Your test logic here
+  return result;
+}
 ```
 
-#### Kubernetes Deployment
-```yaml
-# Example K8s deployment
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: chatbot-deployment
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: chatbot
-  template:
-    metadata:
-      labels:
-        app: chatbot
-    spec:
-      containers:
-      - name: chatbot
-        image: chatbot-solution:latest
-        ports:
-        - containerPort: 3000
-```
+## 🚀 Deployment
 
-#### Self-Hosted Setup
-- Include systemd service files
-- Provide nginx configuration examples
-- Document SSL/TLS setup
-- Include monitoring configuration
+### Docker Deployment
 
-### Documentation Standards
-
-#### README Requirements
-Each chatbot solution must include:
-- **Quick Start Guide** - 5-minute setup instructions
-- **Prerequisites** - Required dependencies and versions
-- **Installation Steps** - Detailed setup process
-- **Configuration** - Environment variables and settings
-- **Deployment Options** - Available deployment methods
-- **Testing Instructions** - How to validate the implementation
-- **Troubleshooting** - Common issues and solutions
-
-#### Code Documentation
-- Use JSDoc for JavaScript/TypeScript functions
-- Include docstrings for Python functions
-- Document API endpoints and responses
-- Provide configuration option explanations
-
-### Security Guidelines
-
-#### Environment Variables
 ```bash
-# Example .env structure
-CHATBOT_API_KEY=your_api_key_here
-DATABASE_URL=postgresql://user:pass@localhost/chatbot
-WEBHOOK_SECRET=your_webhook_secret
-ENCRYPTION_KEY=your_32_character_encryption_key
+# Build image
+docker build -t chatbot-analyzer .
+
+# Run container
+docker run -p 3000:3000 -v $(pwd)/workspace:/app/workspace chatbot-analyzer
 ```
 
-#### Security Checklist
-- [ ] API keys stored in environment variables
-- [ ] Input validation on all user inputs
-- [ ] Rate limiting on API endpoints
-- [ ] HTTPS enabled for production deployments
-- [ ] Regular dependency updates
-- [ ] Security headers configured
+### Self-Hosted Deployment
 
-### Browser Automation Setup
+1. **Server Requirements**:
+   - Node.js 20+
+   - 2GB+ RAM
+   - 10GB+ disk space
 
-The repository includes comprehensive browser automation capabilities:
+2. **Setup**:
+```bash
+# Production build
+npm run build
 
-#### Chrome Configuration
-```javascript
-const chromeOptions = {
-  headless: true,
-  args: [
-    '--no-sandbox',
-    '--disable-setuid-sandbox',
-    '--disable-dev-shm-usage',
-    '--disable-gpu',
-    '--no-first-run'
-  ]
-};
+# Start with PM2
+npm install -g pm2
+pm2 start dist/index.js --name chatbot-analyzer
+
+# Or with systemd
+sudo cp chatbot-analyzer.service /etc/systemd/system/
+sudo systemctl enable chatbot-analyzer
+sudo systemctl start chatbot-analyzer
 ```
 
-#### Puppeteer Integration
-```javascript
-const puppeteer = require('puppeteer');
+## 🤝 Contributing
 
-async function testChatbotUI() {
-  const browser = await puppeteer.launch(chromeOptions);
-  const page = await browser.newPage();
-  // Chatbot UI testing logic
-  await browser.close();
-}
-```
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/new-analysis`
+3. Make your changes following the coding standards
+4. Add tests for new functionality
+5. Run the test suite: `npm test`
+6. Submit a pull request
 
-### Contributing Guidelines
+### Pull Request Requirements
 
-#### Adding New Chatbot Solutions
-1. Create framework-specific directory
-2. Include complete implementation example
-3. Add deployment configurations
-4. Provide comprehensive documentation
-5. Include test cases and validation
-6. Add to main repository index
-
-#### Pull Request Requirements
 - [ ] Follows repository structure guidelines
 - [ ] Includes comprehensive documentation
 - [ ] Has working deployment example
 - [ ] Passes all automated tests
 - [ ] Includes browser automation tests (if applicable)
-- [ ] Updates main README with new solution
+- [ ] Updates main README with new features
 
-### Automation Preferences
+## 📝 License
 
-The Copilot agent is configured with the following automation preferences:
+MIT License - see [LICENSE](LICENSE) file for details.
 
-```json
-{
-  "automation_preferences": {
-    "auto_fix_lint": true,
-    "auto_generate_tests": true,
-    "auto_update_docs": true,
-    "auto_security_patches": true,
-    "auto_chatbot_deployment": true,
-    "auto_conversation_testing": true
-  }
-}
-```
+## 🙏 Acknowledgments
 
-### Firewall Configuration
+- Model Context Protocol (MCP) by Anthropic
+- Playwright by Microsoft
+- GitHub API for project discovery
+- Open source chatbot community
 
-The development environment has firewall restrictions disabled to allow:
-- Unrestricted package installation
-- Browser automation downloads
-- API access for chatbot frameworks
-- Cloud service integrations
-- Real-time testing and validation
+## 📞 Support
 
-### Supported Technologies
+- 📧 Issues: [GitHub Issues](https://github.com/dzp5103/Chatbot-solution/issues)
+- 📖 Documentation: [Wiki](https://github.com/dzp5103/Chatbot-solution/wiki)
+- 💬 Discussions: [GitHub Discussions](https://github.com/dzp5103/Chatbot-solution/discussions)
 
-#### Programming Languages
-- **JavaScript/TypeScript** - Web-based chatbot frameworks
-- **Python** - AI/ML chatbot implementations
-- **Go** - High-performance chatbot services
-- **Rust** - Systems-level chatbot components
-- **PHP** - Traditional web-based chatbots
+---
 
-#### Frameworks and Libraries
-- **Frontend**: React, Vue.js, Angular, Svelte
-- **Backend**: Node.js, Express, FastAPI, Flask, Gin
-- **AI/ML**: TensorFlow, PyTorch, spaCy, NLTK, Transformers
-- **Testing**: Jest, Pytest, Playwright, Puppeteer
-- **Deployment**: Docker, Kubernetes, Terraform
-
-#### Cloud Platforms
-- **AWS**: Lambda, ECS, EKS, Lex
-- **Google Cloud**: Cloud Functions, GKE, Dialogflow
-- **Azure**: Functions, AKS, Bot Service
-- **Heroku**: Container deployment
-- **DigitalOcean**: Droplets and App Platform
-
-## Creating Pull Requests
-
-When creating pull requests for this repository:
-
-### PR Description Template
-```markdown
-_This pull request was created as a result of the following prompt in Copilot Chat._
-
-<details>
-<summary>Original prompt - submitted by @username</summary>
-
-> [Original prompt text here]
-
-</details>
-
-## Changes Made
-- [ ] Added new chatbot framework support
-- [ ] Updated deployment configurations
-- [ ] Enhanced documentation
-- [ ] Added test cases
-- [ ] Fixed browser automation issues
-
-## Chatbot Solution Details
-- **Framework**: [Framework name]
-- **Deployment Type**: [Docker/K8s/Self-hosted/Local]
-- **Testing**: [Test coverage and validation]
-- **Documentation**: [Setup and usage guides]
-
-## Validation Checklist
-- [ ] All tests pass
-- [ ] Documentation is complete
-- [ ] Deployment example works
-- [ ] Browser automation tests included
-- [ ] Security guidelines followed
-```
-
-### Testing Before PR
-```bash
-# Comprehensive testing workflow
-npm run test                          # Unit tests
-npm run lint                          # Code quality
-npm run build                         # Build validation
-npm run test:integration              # Integration tests
-npm run test:browser                  # Browser automation tests
-docker-compose up --build             # Deployment test
-```
-
-This repository serves as a comprehensive resource for chatbot development, deployment, and automation. Follow these guidelines to maintain consistency and quality across all chatbot solutions and documentation.
+**Built with ❤️ for the chatbot development community**
