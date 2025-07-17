@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/home/runner/work/Chatbot-solution/Chatbot-solution/logs/.6f3e3d4cf8d1e5bd925798d3e95c4f0913cfd9e4-audit.json",
+    "files": [
+        {
+            "date": 1752715550945,
+            "name": "/home/runner/work/Chatbot-solution/Chatbot-solution/logs/mcp-puppeteer-2025-07-17.log",
+            "hash": "83fc6c1db401ccc344ecd0198b952ddf8f42f28976913246c3c87afab6e8916a"
+        }
+    ],
+    "hashType": "sha256"
+}
