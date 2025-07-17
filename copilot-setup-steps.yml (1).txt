@@ -1,0 +1,375 @@
+name: 🤖 Chatbot Solution - Copilot Setup Steps
+
+on:
+  workflow_dispatch:
+    inputs:
+      task_description:
+        description: 'Describe the chatbot development task'
+        required: true
+        type: string
+      deployment_target:
+        description: 'Target deployment environment'
+        required: false
+        default: 'local'
+        type: choice
+        options:
+          - local
+          - docker
+          - cloud
+          - self-hosted
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'chatbot-solutions/**'
+      - 'deployment-configs/**'
+      - '.github/workflows/**'
+  pull_request:
+    branches: [ main ]
+
+env:
+  NODE_VERSION: "20"
+  PYTHON_VERSION: "3.11"
+  CHATBOT_WORKSPACE: "./chatbot-workspace"
+
+jobs:
+  copilot-setup-steps:
+    name: 🚀 Copilot Setup Steps for Chatbot Solution
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📦 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🔧 Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: 🐍 Setup Python Environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: 🌍 Environment Validation
+        run: |
+          echo "🔍 Validating chatbot development environment..."
+          echo "Node.js version: $(node --version)"
+          echo "npm version: $(npm --version)"
+          echo "Python version: $(python --version)"
+          echo "Current working directory: $(pwd)"
+          echo "Available disk space: $(df -h . | tail -1 | awk '{print $4}')"
+          echo "Memory: $(free -h | head -2 | tail -1 | awk '{print $2}')"
+          command -v node >/dev/null 2>&1 || { echo "❌ Node.js is required for chatbot frameworks"; exit 1; }
+          command -v npm >/dev/null 2>&1 || { echo "❌ npm is required for package management"; exit 1; }
+          command -v python >/dev/null 2>&1 || { echo "❌ Python is required for AI/ML chatbot components"; exit 1; }
+          command -v git >/dev/null 2>&1 || { echo "❌ Git is required for version control"; exit 1; }
+          echo "✅ Chatbot development environment validation passed"
+
+      - name: 🛡️ Configure Copilot Agent with Disabled Firewall
+        run: |
+          echo "🔧 Setting up Copilot coding agent configuration for chatbot development..."
+          mkdir -p ~/.config/copilot-coding-agent
+          cat << 'EOF' > ~/.config/copilot-coding-agent/agent.config.json
+          {
+            "firewall": {
+              "enabled": false,
+              "allowlist": [
+                "0.0.0.0/0",
+                "*.github.com",
+                "*.githubusercontent.com",
+                "api.openai.com",
+                "*.openai.com",
+                "accounts.google.com",
+                "clients2.google.com",
+                "googlechromelabs.github.io",
+                "storage.googleapis.com",
+                "safebrowsingohttpgateway.googleapis.com",
+                "chrome-for-testing-public",
+                "registry.npmjs.org",
+                "pypi.org",
+                "*.pypi.org",
+                "huggingface.co",
+                "*.huggingface.co",
+                "ollama.ai",
+                "*.ollama.ai",
+                "docker.io",
+                "*.docker.io"
+              ]
+            },
+            "project_context": {
+              "type": "Chatbot Solution Repository",
+              "primary_purpose": "Curated chatbot solutions and deployment guides",
+              "supported_languages": ["JavaScript", "TypeScript", "Python", "Go", "Rust"],
+              "chatbot_frameworks": [
+                "Botpress",
+                "Rasa",
+                "Microsoft Bot Framework",
+                "Dialogflow",
+                "Wit.ai",
+                "ChatterBot",
+                "BotMan",
+                "Botkit"
+              ],
+              "deployment_targets": ["Docker", "Kubernetes", "Cloud Functions", "Self-hosted", "Local"]
+            },
+            "mcp_server_config": {
+              "enabled": true,
+              "servers": [
+                {
+                  "name": "chatbot-mcp",
+                  "command": "npx",
+                  "args": ["@modelcontextprotocol/server-everything"],
+                  "env": {
+                    "CHATBOT_WORKSPACE": "./chatbot-workspace",
+                    "MCP_LOG_LEVEL": "debug"
+                  }
+                },
+                {
+                  "name": "browser-automation-mcp",
+                  "command": "npx",
+                  "args": ["@modelcontextprotocol/server-brave-search"],
+                  "env": {
+                    "BRAVE_API_KEY": "${{ secrets.BRAVE_API_KEY || 'demo-key' }}"
+                  }
+                }
+              ]
+            },
+            "browser_automation": {
+              "enabled": true,
+              "headless": true,
+              "chrome_flags": [
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-gpu",
+                "--no-first-run",
+                "--disable-background-timer-throttling",
+                "--disable-backgrounding-occluded-windows"
+              ]
+            },
+            "enhanced_features": {
+              "advanced_prompts": true,
+              "security_scanning": true,
+              "performance_analysis": true,
+              "dependency_auditing": true,
+              "chatbot_testing": true,
+              "conversation_flow_analysis": true,
+              "intent_recognition_validation": true
+            },
+            "automation_preferences": {
+              "auto_fix_lint": true,
+              "auto_generate_tests": true,
+              "auto_update_docs": true,
+              "auto_security_patches": true,
+              "auto_chatbot_deployment": true,
+              "auto_conversation_testing": true
+            },
+            "chatbot_specific_tools": {
+              "nlp_libraries": ["spacy", "nltk", "transformers"],
+              "testing_frameworks": ["jest", "pytest", "chai"],
+              "deployment_tools": ["docker", "kubernetes", "terraform"],
+              "monitoring_tools": ["prometheus", "grafana", "datadog"]
+            }
+          }
+          EOF
+          echo "✅ Copilot agent configuration created successfully"
+
+      - name: 🔍 Verify Agent Configuration
+        run: |
+          echo "📋 Copilot agent configuration contents:"
+          if command -v jq >/dev/null 2>&1; then
+            jq . ~/.config/copilot-coding-agent/agent.config.json
+          else
+            cat ~/.config/copilot-coding-agent/agent.config.json
+          fi
+
+      - name: 🌐 Install Browser Dependencies for Automation
+        run: |
+          echo "🌐 Installing browser dependencies for chatbot testing and automation..."
+          sudo apt-get update
+          sudo apt-get install -y \
+            wget \
+            gnupg \
+            curl \
+            unzip \
+            xvfb \
+            libnss3-dev \
+            libgconf-2-4 \
+            libxss1 \
+            libappindicator1 \
+            fonts-liberation \
+            libappindicator3-1 \
+            libasound2 \
+            libatk-bridge2.0-0 \
+            libgtk-3-0
+          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google.list
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          google-chrome --version
+          echo "✅ Chrome installed successfully for chatbot browser automation"
+
+      - name: 📦 Install MCP Server Dependencies
+        run: |
+          echo "📦 Installing MCP server dependencies for enhanced chatbot development..."
+          npm install -g \
+            @modelcontextprotocol/server-everything \
+            @modelcontextprotocol/server-brave-search \
+            @modelcontextprotocol/server-filesystem \
+            @modelcontextprotocol/server-git
+          pip install \
+            mcp \
+            mcp-server-git \
+            mcp-server-filesystem
+          echo "✅ MCP server dependencies installed"
+
+      - name: 🚀 Setup Chatbot Development Workspace
+        run: |
+          echo "🚀 Setting up dedicated chatbot development workspace..."
+          mkdir -p ${{ env.CHATBOT_WORKSPACE }}
+          cd ${{ env.CHATBOT_WORKSPACE }}
+          mkdir -p {
+            frameworks/{botpress,rasa,microsoft-bot,dialogflow},
+            deployment/{docker,kubernetes,cloud-functions,self-hosted},
+            examples/{basic,advanced,industry-specific},
+            testing/{unit,integration,conversation-flow},
+            documentation/{setup,deployment,troubleshooting},
+            tools/{automation,monitoring,analytics}
+          }
+          cat << 'EOF' > workspace.config.json
+          {
+            "workspace_type": "chatbot_development",
+            "supported_frameworks": [
+              "botpress", "rasa", "microsoft-bot", "dialogflow",
+              "wit.ai", "chatterbot", "botman", "botkit"
+            ],
+            "deployment_targets": [
+              "docker", "kubernetes", "cloud-functions", "self-hosted", "local"
+            ],
+            "testing_enabled": true,
+            "browser_automation_enabled": true,
+            "mcp_servers_enabled": true
+          }
+          EOF
+          echo "✅ Chatbot development workspace ready"
+
+      - name: 🧪 Initialize Chatbot Testing Environment
+        run: |
+          echo "🧪 Setting up chatbot testing environment..."
+          cd ${{ env.CHATBOT_WORKSPACE }}
+          npm init -y
+          npm install --save-dev \
+            jest \
+            puppeteer \
+            playwright \
+            axios \
+            chai \
+            mocha \
+            selenium-webdriver
+          cat << 'EOF' > jest.config.js
+          module.exports = {
+            testEnvironment: 'node',
+            roots: ['<rootDir>/testing'],
+            testMatch: ['**/__tests__/**/*.js', '**/?(*.)+(spec|test).js'],
+            collectCoverageFrom: [
+              'frameworks/**/*.js',
+              'deployment/**/*.js',
+              '!**/node_modules/**'
+            ],
+            setupFilesAfterEnv: ['<rootDir>/testing/setup.js']
+          };
+          EOF
+          cat << 'EOF' > testing/browser-setup.js
+          const puppeteer = require('puppeteer');
+          module.exports = {
+            async setupBrowser() {
+              return await puppeteer.launch({
+                headless: true,
+                args: [
+                  '--no-sandbox',
+                  '--disable-setuid-sandbox',
+                  '--disable-dev-shm-usage',
+                  '--disable-gpu'
+                ]
+              });
+            }
+          };
+          EOF
+          echo "✅ Chatbot testing environment initialized"
+
+      - name: 🔧 Configure Development Tools
+        run: |
+          echo "🔧 Configuring chatbot development tools..."
+          npm install -g \
+            nodemon \
+            pm2 \
+            eslint \
+            prettier \
+            typescript \
+            ts-node
+          pip install \
+            rasa \
+            spacy \
+            nltk \
+            transformers \
+            torch \
+            tensorflow \
+            flask \
+            fastapi \
+            uvicorn
+          python -m spacy download en_core_web_sm
+          echo "✅ Development tools configured"
+
+      - name: 🔍 Run Final Validation
+        run: |
+          echo "🔍 Validating complete chatbot development setup..."
+          commands=("node" "npm" "python" "pip" "google-chrome" "git")
+          for cmd in "${commands[@]}"; do
+            if command -v "$cmd" >/dev/null 2>&1; then
+              echo "✅ $cmd is available"
+            else
+              echo "❌ $cmd is missing"
+              exit 1
+            fi
+          done
+          echo "🎉 All validation checks passed! Environment is ready for chatbot development."
+
+      - name: ✅ Finalize Setup
+        run: |
+          echo "🎉 Chatbot Solution coding agent setup complete!"
+          echo ""
+          echo "📋 Setup Summary:"
+          echo "├── 🤖 Copilot coding agent configured with disabled firewall"
+          echo "├── 🌐 Browser automation ready (Chrome + Puppeteer + Playwright)"
+          echo "├── 📡 MCP servers installed and configured"
+          echo "├── 🧪 Testing environment initialized"
+          echo "├── 📦 Chatbot frameworks and tools installed"
+          echo "├── 🚀 Development workspace created at ${{ env.CHATBOT_WORKSPACE }}"
+          echo "└── ✅ Ready for chatbot solution development!"
+          echo ""
+          echo "🔗 Available MCP Servers:"
+          echo "├── @modelcontextprotocol/server-everything"
+          echo "├── @modelcontextprotocol/server-brave-search"
+          echo "├── @modelcontextprotocol/server-filesystem"
+          echo "└── @modelcontextprotocol/server-git"
+          echo ""
+          echo "🤖 Supported Chatbot Frameworks:"
+          echo "├── Botpress"
+          echo "├── Rasa"
+          echo "├── Microsoft Bot Framework"
+          echo "├── Dialogflow"
+          echo "├── Wit.ai"
+          echo "├── ChatterBot"
+          echo "├── BotMan"
+          echo "└── Botkit"
+          echo ""
+          echo "🚀 Deployment Options:"
+          echo "├── Docker containers"
+          echo "├── Kubernetes clusters"
+          echo "├── Cloud Functions"
+          echo "├── Self-hosted solutions"
+          echo "└── Local development"
