@@ -1,0 +1,207 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+    - yes please
+    - absolutely
+    - sure
+    - right
+    - exactly
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+    - absolutely not
+    - nope
+    - no thanks
+
+- intent: mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+    - what are you?
+    - who are you?
+    - are you real?
+    - are you artificial?
+
+- intent: ask_weather
+  examples: |
+    - what's the weather like?
+    - how's the weather?
+    - what's the weather today?
+    - weather forecast
+    - is it raining?
+    - will it rain today?
+    - what's the temperature?
+    - how hot is it?
+    - weather report
+    - current weather
+
+- intent: ask_name
+  examples: |
+    - what's your name?
+    - what should I call you?
+    - who are you?
+    - what are you called?
+    - tell me your name
+    - what do people call you?
+
+- intent: provide_name
+  examples: |
+    - my name is [John](name)
+    - I'm [Sarah](name)
+    - call me [Mike](name)
+    - you can call me [Anna](name)
+    - [David](name) is my name
+    - I am [Lisa](name)
+    - [Tom](name)
+    - people call me [Alex](name)
+
+- intent: ask_help
+  examples: |
+    - help
+    - can you help me?
+    - what can you do?
+    - how can you help?
+    - help me
+    - what are your capabilities?
+    - what functions do you have?
+    - show me what you can do
+
+- intent: thank
+  examples: |
+    - thanks
+    - thank you
+    - thank you very much
+    - thanks a lot
+    - awesome, thanks
+    - cool, thanks
+    - thank you so much
+    - perfect, thanks
+    - thanks for your help
+
+- intent: ask_time
+  examples: |
+    - what time is it?
+    - current time
+    - tell me the time
+    - what's the current time?
+    - time please
+    - show me the time
+
+- intent: book_appointment
+  examples: |
+    - I want to book an appointment
+    - schedule a meeting
+    - can I make an appointment?
+    - book a slot
+    - reserve a time
+    - I need to schedule something
+    - make an appointment for me
+
+- intent: cancel_appointment
+  examples: |
+    - cancel my appointment
+    - I want to cancel
+    - remove my booking
+    - cancel the meeting
+    - I can't make it
+    - cancel my slot
+
+- intent: ask_location
+  examples: |
+    - where are you located?
+    - what's your location?
+    - where can I find you?
+    - your address
+    - office location
+    - where is your office?
+
+- intent: out_of_scope
+  examples: |
+    - I want to order food
+    - play music
+    - turn on the lights
+    - call my mom
+    - send email
+    - what's 2+2?
+    - tell me a joke
+    - sing a song
