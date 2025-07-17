@@ -1,4 +1,4 @@
-name: 🤖 Chatbot Solution - Coding Agent Workflow
+name: 🤖 Chatbot Solution - Copilot Setup Steps
 
 on:
   workflow_dispatch:
@@ -32,10 +32,10 @@ env:
   CHATBOT_WORKSPACE: "./chatbot-workspace"
 
 jobs:
-  setup-coding-agent:
-    name: 🚀 Setup Enhanced Coding Agent for Chatbot Development
+  copilot-setup-steps:
+    name: 🚀 Copilot Setup Steps for Chatbot Solution
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: 📦 Checkout Repository
         uses: actions/checkout@v4
@@ -63,13 +63,10 @@ jobs:
           echo "Current working directory: $(pwd)"
           echo "Available disk space: $(df -h . | tail -1 | awk '{print $4}')"
           echo "Memory: $(free -h | head -2 | tail -1 | awk '{print $2}')"
-          
-          # Check required commands for chatbot development
           command -v node >/dev/null 2>&1 || { echo "❌ Node.js is required for chatbot frameworks"; exit 1; }
           command -v npm >/dev/null 2>&1 || { echo "❌ npm is required for package management"; exit 1; }
           command -v python >/dev/null 2>&1 || { echo "❌ Python is required for AI/ML chatbot components"; exit 1; }
           command -v git >/dev/null 2>&1 || { echo "❌ Git is required for version control"; exit 1; }
-          
           echo "✅ Chatbot development environment validation passed"
 
       - name: 🛡️ Configure Copilot Agent with Disabled Firewall
@@ -78,7 +75,7 @@ jobs:
           mkdir -p ~/.config/copilot-coding-agent
           cat << 'EOF' > ~/.config/copilot-coding-agent/agent.config.json
           {
-            "firewall": { 
+            "firewall": {
               "enabled": false,
               "allowlist": [
                 "0.0.0.0/0",
@@ -179,7 +176,6 @@ jobs:
             }
           }
           EOF
-          
           echo "✅ Copilot agent configuration created successfully"
 
       - name: 🔍 Verify Agent Configuration
@@ -194,11 +190,7 @@ jobs:
       - name: 🌐 Install Browser Dependencies for Automation
         run: |
           echo "🌐 Installing browser dependencies for chatbot testing and automation..."
-          
-          # Update package list
           sudo apt-get update
-          
-          # Install essential packages
           sudo apt-get install -y \
             wget \
             gnupg \
@@ -214,36 +206,25 @@ jobs:
             libasound2 \
             libatk-bridge2.0-0 \
             libgtk-3-0
-          
-          # Add Google Chrome repository
           wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
           echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google.list
-          
-          # Install Chrome for browser automation
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
-          
-          # Verify installation
           google-chrome --version
           echo "✅ Chrome installed successfully for chatbot browser automation"
 
       - name: 📦 Install MCP Server Dependencies
         run: |
           echo "📦 Installing MCP server dependencies for enhanced chatbot development..."
-          
-          # Install Node.js MCP packages
           npm install -g \
             @modelcontextprotocol/server-everything \
             @modelcontextprotocol/server-brave-search \
             @modelcontextprotocol/server-filesystem \
             @modelcontextprotocol/server-git
-          
-          # Install Python MCP packages
           pip install \
             mcp \
             mcp-server-git \
             mcp-server-filesystem
-          
           echo "✅ MCP server dependencies installed"
 
       - name: 🚀 Setup Chatbot Development Workspace
@@ -251,8 +232,6 @@ jobs:
           echo "🚀 Setting up dedicated chatbot development workspace..."
           mkdir -p ${{ env.CHATBOT_WORKSPACE }}
           cd ${{ env.CHATBOT_WORKSPACE }}
-          
-          # Create directory structure for chatbot solutions
           mkdir -p {
             frameworks/{botpress,rasa,microsoft-bot,dialogflow},
             deployment/{docker,kubernetes,cloud-functions,self-hosted},
@@ -261,8 +240,6 @@ jobs:
             documentation/{setup,deployment,troubleshooting},
             tools/{automation,monitoring,analytics}
           }
-          
-          # Create workspace configuration
           cat << 'EOF' > workspace.config.json
           {
             "workspace_type": "chatbot_development",
@@ -278,15 +255,12 @@ jobs:
             "mcp_servers_enabled": true
           }
           EOF
-          
           echo "✅ Chatbot development workspace ready"
 
       - name: 🧪 Initialize Chatbot Testing Environment
         run: |
           echo "🧪 Setting up chatbot testing environment..."
           cd ${{ env.CHATBOT_WORKSPACE }}
-          
-          # Install testing dependencies
           npm init -y
           npm install --save-dev \
             jest \
@@ -296,8 +270,6 @@ jobs:
             chai \
             mocha \
             selenium-webdriver
-          
-          # Create basic test configuration
           cat << 'EOF' > jest.config.js
           module.exports = {
             testEnvironment: 'node',
@@ -311,11 +283,8 @@ jobs:
             setupFilesAfterEnv: ['<rootDir>/testing/setup.js']
           };
           EOF
-          
-          # Create browser automation setup
           cat << 'EOF' > testing/browser-setup.js
           const puppeteer = require('puppeteer');
-          
           module.exports = {
             async setupBrowser() {
               return await puppeteer.launch({
@@ -330,14 +299,11 @@ jobs:
             }
           };
           EOF
-          
           echo "✅ Chatbot testing environment initialized"
 
       - name: 🔧 Configure Development Tools
         run: |
           echo "🔧 Configuring chatbot development tools..."
-          
-          # Install global development tools
           npm install -g \
             nodemon \
             pm2 \
@@ -345,8 +311,6 @@ jobs:
             prettier \
             typescript \
             ts-node
-          
-          # Install Python chatbot development tools
           pip install \
             rasa \
             spacy \
@@ -357,11 +321,22 @@ jobs:
             flask \
             fastapi \
             uvicorn
-          
-          # Download spaCy language model
           python -m spacy download en_core_web_sm
-          
           echo "✅ Development tools configured"
+
+      - name: 🔍 Run Final Validation
+        run: |
+          echo "🔍 Validating complete chatbot development setup..."
+          commands=("node" "npm" "python" "pip" "google-chrome" "git")
+          for cmd in "${commands[@]}"; do
+            if command -v "$cmd" >/dev/null 2>&1; then
+              echo "✅ $cmd is available"
+            else
+              echo "❌ $cmd is missing"
+              exit 1
+            fi
+          done
+          echo "🎉 All validation checks passed! Environment is ready for chatbot development."
 
       - name: ✅ Finalize Setup
         run: |
@@ -398,29 +373,3 @@ jobs:
           echo "├── Cloud Functions"
           echo "├── Self-hosted solutions"
           echo "└── Local development"
-
-  validate-setup:
-    name: 🔍 Validate Chatbot Development Environment
-    needs: setup-coding-agent
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: 📦 Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: 🔍 Run Environment Validation
-        run: |
-          echo "🔍 Validating complete chatbot development setup..."
-          
-          # Check if all required tools are available
-          commands=("node" "npm" "python" "pip" "google-chrome" "git")
-          for cmd in "${commands[@]}"; do
-            if command -v "$cmd" >/dev/null 2>&1; then
-              echo "✅ $cmd is available"
-            else
-              echo "❌ $cmd is missing"
-              exit 1
-            fi
-          done
-          
-          echo "🎉 All validation checks passed! Environment is ready for chatbot development."
