@@ -1,0 +1,43 @@
+version: "3.1"
+
+rules:
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+- rule: Activate form
+  steps:
+  - intent: book_appointment
+  - action: appointment_form
+  - active_loop: appointment_form
+
+- rule: Submit form
+  condition:
+  - active_loop: appointment_form
+  steps:
+  - action: appointment_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_appointment_confirmed
+
+- rule: Handle out of scope
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+
+- rule: Handle thanks
+  steps:
+  - intent: thank
+  - action: utter_welcome
+
+- rule: Handle name introduction
+  steps:
+  - intent: provide_name
+  - action: utter_nice_to_meet

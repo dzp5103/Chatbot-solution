@@ -1,0 +1,76 @@
+{
+  "name": "chatbot-solutions",
+  "version": "1.0.0",
+  "description": "Comprehensive chatbot solutions repository with multiple frameworks and deployment options",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test:frameworks && npm run test:browser && npm run test:integration",
+    "test:frameworks": "cd frameworks && find . -name 'package.json' -execdir npm test \\;",
+    "test:browser": "cd tools/browser-automation/playwright && npm test",
+    "test:integration": "cd testing/integration && npm test",
+    "lint": "eslint . --ext .js,.ts --ignore-path .gitignore",
+    "lint:fix": "npm run lint -- --fix",
+    "format": "prettier --write \"**/*.{js,ts,json,md,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{js,ts,json,md,yml,yaml}\"",
+    "build": "npm run build:docker && npm run build:docs",
+    "build:docker": "cd deployment/docker && docker-compose build",
+    "build:docs": "cd documentation && npm run build",
+    "dev": "cd frameworks/rasa && rasa run --enable-api --cors \"*\"",
+    "dev:multi": "cd deployment/docker && docker-compose -f compose/development.yml up",
+    "deploy:dev": "cd deployment/docker && docker-compose -f compose/development.yml up -d",
+    "deploy:prod": "cd deployment/docker && docker-compose -f compose/production.yml up -d",
+    "monitor": "cd deployment/docker && docker-compose -f compose/monitoring.yml up -d",
+    "setup:rasa": "cd frameworks/rasa && pip install -r requirements.txt && rasa train",
+    "setup:playwright": "cd tools/browser-automation/playwright && npm install && npx playwright install",
+    "clean": "docker system prune -f && docker volume prune -f",
+    "validate": "npm run lint && npm run format:check && npm run test",
+    "security": "npm audit && snyk test",
+    "docs:serve": "cd documentation && npm run serve",
+    "backup": "node scripts/backup.js",
+    "restore": "node scripts/restore.js"
+  },
+  "keywords": [
+    "chatbot",
+    "rasa",
+    "botpress",
+    "microsoft-bot",
+    "dialogflow",
+    "conversational-ai",
+    "nlp",
+    "deployment",
+    "docker",
+    "kubernetes",
+    "automation",
+    "testing"
+  ],
+  "author": "Chatbot Solutions Community",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dzp5103/Chatbot-solution.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dzp5103/Chatbot-solution/issues"
+  },
+  "homepage": "https://github.com/dzp5103/Chatbot-solution#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.0.0",
+    "eslint": "^8.50.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.2.0",
+    "snyk": "^1.1000.0"
+  },
+  "dependencies": {
+    "express": "^4.18.0",
+    "dotenv": "^16.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=9.0.0"
+  },
+  "volta": {
+    "node": "20.10.0",
+    "npm": "10.2.0"
+  }
+}

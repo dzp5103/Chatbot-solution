@@ -1,0 +1,137 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - ask_weather
+  - ask_name
+  - provide_name
+  - ask_help
+  - thank
+  - ask_time
+  - book_appointment
+  - cancel_appointment
+  - ask_location
+  - out_of_scope
+
+entities:
+  - name
+  - date
+  - time
+  - location
+
+slots:
+  name:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: name
+  
+  appointment_date:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: date
+  
+  appointment_time:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: time
+
+  location:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: location
+
+responses:
+  utter_greet:
+  - text: "Hey! How can I help you today?"
+  - text: "Hello! What can I do for you?"
+  - text: "Hi there! How are you doing?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+  - text: "I hope this makes you feel better!"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+  - text: "Do you feel better now?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+  - text: "That's wonderful to hear!"
+  - text: "Awesome! Keep it up!"
+
+  utter_goodbye:
+  - text: "Bye! Have a great day!"
+  - text: "Goodbye! Take care!"
+  - text: "See you later!"
+
+  utter_iamabot:
+  - text: "I am a chatbot built with Rasa. I'm here to help you!"
+  - text: "Yes, I'm a bot created to assist you. How can I help?"
+
+  utter_ask_name:
+  - text: "What's your name?"
+  - text: "What should I call you?"
+
+  utter_nice_to_meet:
+  - text: "Nice to meet you, {name}!"
+  - text: "Hello {name}! Great to meet you!"
+  - text: "Hi {name}! Pleasure to meet you!"
+
+  utter_help:
+  - text: "I can help you with:\n- Weather information\n- Booking appointments\n- General conversation\n- Time information\n\nWhat would you like to know?"
+
+  utter_welcome:
+  - text: "You're welcome!"
+  - text: "Happy to help!"
+  - text: "Anytime!"
+
+  utter_location:
+  - text: "I'm a virtual assistant, so I exist in the cloud! But I'm here to help you wherever you are."
+
+  utter_out_of_scope:
+  - text: "I'm sorry, I don't understand that. I can help you with weather, appointments, and general conversation."
+  - text: "That's outside my current capabilities. Try asking about weather, booking appointments, or just having a chat!"
+
+  utter_book_appointment:
+  - text: "I'd be happy to help you book an appointment. Please provide the date and time you prefer."
+
+  utter_appointment_confirmed:
+  - text: "Great! Your appointment has been booked for {appointment_date} at {appointment_time}."
+
+  utter_ask_appointment_date:
+  - text: "What date would you like to book the appointment?"
+
+  utter_ask_appointment_time:
+  - text: "What time works best for you?"
+
+actions:
+  - action_get_weather
+  - action_get_time
+  - action_book_appointment
+  - action_cancel_appointment
+
+forms:
+  appointment_form:
+    required_slots:
+      - appointment_date
+      - appointment_time
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  rasa:
+    build: 
+      context: .
+      target: production
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./models:/app/models
+      - ./logs:/app/logs
+    environment:
+      - RASA_MODEL_PATH=/app/models
+      - RASA_ACTION_ENDPOINT=http://action-server:5055/webhook
+    depends_on:
+      - action-server
+      - db
+    networks:
+      - rasa-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5005/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  action-server:
+    build: 
+      context: .
+      target: production
+    ports:
+      - "5055:5055"
+    volumes:
+      - ./actions:/app/actions
+      - ./logs:/app/logs
+    environment:
+      - DATABASE_URL=postgresql://rasa:password@db:5432/rasa
+    depends_on:
+      - db
+    networks:
+      - rasa-network
+    restart: unless-stopped
+    command: ["rasa", "run", "actions", "--port", "5055"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5055/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: rasa
+      POSTGRES_USER: rasa
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - rasa-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rasa"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  redis:
+    image: redis:7-alpine
+    networks:
+      - rasa-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - rasa
+    networks:
+      - rasa-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  rasa-network:
+    driver: bridge

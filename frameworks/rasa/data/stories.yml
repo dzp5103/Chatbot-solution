@@ -1,0 +1,116 @@
+version: "3.1"
+
+stories:
+- story: happy path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy
+
+- story: sad path 1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: affirm
+  - action: utter_happy
+
+- story: sad path 2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: deny
+  - action: utter_goodbye
+
+- story: say goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: bot challenge
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+- story: weather inquiry
+  steps:
+  - intent: ask_weather
+  - action: action_get_weather
+
+- story: introduction flow
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: ask_name
+  - action: utter_ask_name
+  - intent: provide_name
+  - action: utter_nice_to_meet
+
+- story: name and weather
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: provide_name
+  - action: utter_nice_to_meet
+  - intent: ask_weather
+  - action: action_get_weather
+
+- story: help request
+  steps:
+  - intent: ask_help
+  - action: utter_help
+
+- story: time inquiry
+  steps:
+  - intent: ask_time
+  - action: action_get_time
+
+- story: appointment booking
+  steps:
+  - intent: book_appointment
+  - action: utter_book_appointment
+  - action: action_book_appointment
+
+- story: appointment cancellation
+  steps:
+  - intent: cancel_appointment
+  - action: action_cancel_appointment
+
+- story: location inquiry
+  steps:
+  - intent: ask_location
+  - action: utter_location
+
+- story: thank you
+  steps:
+  - intent: thank
+  - action: utter_welcome
+
+- story: out of scope
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+
+- story: greet and help
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: ask_help
+  - action: utter_help
+
+- story: interactive_story_1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy
+  - intent: thank
+  - action: utter_welcome
+  - intent: goodbye
+  - action: utter_goodbye

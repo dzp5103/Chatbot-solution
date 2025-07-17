@@ -1,0 +1,185 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.4",
+    "body": [
+        {
+            "type": "Container",
+            "style": "accent",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "📅 Appointment Booking",
+                    "weight": "Bolder",
+                    "size": "Large",
+                    "color": "Light"
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "Please provide your appointment details",
+                    "color": "Light",
+                    "isSubtle": true
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "spacing": "Medium",
+            "items": [
+                {
+                    "type": "Input.Text",
+                    "id": "name",
+                    "label": "Full Name",
+                    "placeholder": "Enter your full name",
+                    "isRequired": true,
+                    "errorMessage": "Name is required"
+                },
+                {
+                    "type": "Input.Text",
+                    "id": "email",
+                    "label": "Email Address",
+                    "placeholder": "your.email@example.com",
+                    "style": "Email",
+                    "isRequired": true,
+                    "errorMessage": "Valid email is required"
+                },
+                {
+                    "type": "Input.Text",
+                    "id": "phone",
+                    "label": "Phone Number",
+                    "placeholder": "+1 (555) 123-4567",
+                    "style": "Tel"
+                },
+                {
+                    "type": "Input.ChoiceSet",
+                    "id": "appointmentType",
+                    "label": "Appointment Type",
+                    "isRequired": true,
+                    "style": "compact",
+                    "choices": [
+                        {
+                            "title": "💼 Business Consultation",
+                            "value": "business"
+                        },
+                        {
+                            "title": "🏥 Medical Appointment",
+                            "value": "medical"
+                        },
+                        {
+                            "title": "🎓 Educational Meeting",
+                            "value": "education"
+                        },
+                        {
+                            "title": "💇 Personal Service",
+                            "value": "personal"
+                        },
+                        {
+                            "title": "🔧 Technical Support",
+                            "value": "technical"
+                        },
+                        {
+                            "title": "📞 Phone Call",
+                            "value": "call"
+                        }
+                    ],
+                    "errorMessage": "Please select an appointment type"
+                },
+                {
+                    "type": "Input.Date",
+                    "id": "preferredDate",
+                    "label": "Preferred Date",
+                    "isRequired": true,
+                    "errorMessage": "Please select a date"
+                },
+                {
+                    "type": "Input.Time",
+                    "id": "preferredTime",
+                    "label": "Preferred Time",
+                    "isRequired": true,
+                    "errorMessage": "Please select a time"
+                },
+                {
+                    "type": "Input.ChoiceSet",
+                    "id": "duration",
+                    "label": "Expected Duration",
+                    "style": "compact",
+                    "value": "30",
+                    "choices": [
+                        {
+                            "title": "15 minutes",
+                            "value": "15"
+                        },
+                        {
+                            "title": "30 minutes",
+                            "value": "30"
+                        },
+                        {
+                            "title": "45 minutes",
+                            "value": "45"
+                        },
+                        {
+                            "title": "1 hour",
+                            "value": "60"
+                        },
+                        {
+                            "title": "1.5 hours",
+                            "value": "90"
+                        },
+                        {
+                            "title": "2 hours",
+                            "value": "120"
+                        }
+                    ]
+                },
+                {
+                    "type": "Input.Text",
+                    "id": "notes",
+                    "label": "Additional Notes (Optional)",
+                    "placeholder": "Any special requirements or additional information...",
+                    "isMultiline": true,
+                    "maxLength": 500
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "style": "good",
+            "spacing": "Medium",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "🔒 **Privacy Notice**",
+                    "weight": "Bolder",
+                    "size": "Small"
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "Your information is secure and will only be used for appointment scheduling purposes.",
+                    "wrap": true,
+                    "size": "Small",
+                    "isSubtle": true
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "📅 Book Appointment",
+            "data": {
+                "action": "submitBooking"
+            },
+            "style": "positive"
+        },
+        {
+            "type": "Action.Submit",
+            "title": "❌ Cancel",
+            "data": {
+                "action": "cancel"
+            },
+            "style": "destructive"
+        }
+    ],
+    "fallbackText": "This card requires a client that supports Adaptive Cards v1.4 to display properly.",
+    "speak": "Please fill out the appointment booking form with your details including name, email, preferred date and time."
+}
