@@ -79,25 +79,26 @@ server.use((req, res, next) => {
 });
 
 // Health check endpoint
-server.get('/health', (req, res) => {
+server.get('/health', (req, res, next) => {
     res.json({
         status: 'healthy',
         timestamp: new Date().toISOString(),
         version: '1.0.0',
         bot: 'Microsoft Bot Framework Chatbot'
     });
+    return next();
 });
 
 // Bot Framework endpoint
-server.post('/api/messages', async (req, res) => {
-    try {
-        await adapter.processActivity(req, res, async (context) => {
-            await bot.run(context);
-        });
-    } catch (error) {
+server.post('/api/messages', (req, res, next) => {
+    adapter.processActivity(req, res, async (context) => {
+        await bot.run(context);
+    }).catch((error) => {
         console.error('Error processing activity:', error);
-        res.status(500).send('Internal Server Error');
-    }
+        res.status(500);
+        res.send('Internal Server Error');
+        next();
+    });
 });
 
 // Static files for web chat (optional)

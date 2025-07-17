@@ -1,0 +1,53 @@
+{
+  "name": "dialogflow-chatbot-implementation",
+  "version": "1.0.0",
+  "description": "Google Dialogflow chatbot implementation with webhook fulfillment and cloud integration",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src/ --fix",
+    "format": "prettier --write src/",
+    "deploy:gcp": "gcloud functions deploy dialogflow-webhook --runtime nodejs18 --trigger-http",
+    "setup:gcp": "node scripts/setup-gcp.js"
+  },
+  "keywords": [
+    "dialogflow",
+    "google-cloud",
+    "chatbot",
+    "nlp",
+    "webhook",
+    "fulfillment"
+  ],
+  "author": "Chatbot Solutions Repository",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.0",
+    "dotenv": "^16.3.1",
+    "dialogflow-fulfillment": "^0.6.1",
+    "axios": "^1.6.0",
+    "uuid": "^9.0.1",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
+    "eslint": "^8.53.0",
+    "prettier": "^3.1.0",
+    "supertest": "^6.3.3"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dzp5103/Chatbot-solution.git",
+    "directory": "frameworks/dialogflow"
+  },
+  "bugs": {
+    "url": "https://github.com/dzp5103/Chatbot-solution/issues"
+  },
+  "homepage": "https://github.com/dzp5103/Chatbot-solution/tree/main/frameworks/dialogflow"
+}
